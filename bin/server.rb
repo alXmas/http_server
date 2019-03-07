@@ -3,10 +3,8 @@
 require 'socket'
 require 'date'
 require 'byebug'
-require_relative 'lib/request/st/get'
-require_relative 'lib/request/post'
-require_relative 'lib/response/counter'
-require_relative 'lib/response/other'
+require 'require_all'
+require_all 'lib'
 
 class Server
   REQUESTS = [Get, Post].freeze
