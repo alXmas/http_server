@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Counter
   @counter = 0
   def self.can_call?(data)
@@ -5,15 +7,11 @@ module Counter
   end
 
   def self.call(hash)
-    response = {}
-    if hash[:request] == Get
-      response[:type] = ' text/plain'
-      response[:body] = @counter
-    elsif hash[:request] == Post
+    if hash[:counter].nil?
+      { type: 'text/plain', body: @counter.to_s }
+    else
       @counter += hash[:counter]
-      response[:type] = 'application/json'
-      response[:body] = 'json {“message”:”success”}'
+      { type: 'application/json', body: ['message:', 'success'] }
     end
-    response
   end
 end
