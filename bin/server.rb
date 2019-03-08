@@ -31,6 +31,14 @@ class Server
                counter: request == Post ? lines.last.to_i : nil }
       out = response.call(hash)
 
+      out = if out.nil?
+              out
+            elsif out[:for_three]
+              Three.call(out)
+            else
+              out
+            end
+
       client.print "HTTP/1.0 #{out.nil? ? '404 Not Found' : '200 OK'}\r\n" \
                    "Content-Type: #{out.nil? ? '' : out[:type]}\r\n" \
                    "Referrer-Policy: no-referrer\r\n" \

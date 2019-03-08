@@ -8,15 +8,21 @@ module Other
   def self.call(hash)
     filename = filename(hash)
     if File.file?(filename)
-      { type: get_content_type(filename), body: File.read(filename) }
+      { type: get_content_type(filename),
+        body: File.read(filename),
+        for_three: get_content_type(filename) == 'text/html' ? true : false }
     elsif File.directory?(filename)
-      { type: get_content_type(filename), body: Dir.entries(filename) }
+      { type: get_content_type(filename),
+        body: Dir.entries(filename),
+        for_three: get_content_type(filename) == 'text/html' ? true : false }
     end
   end
 
   def self.filename(hash)
     hash[:text] = if hash[:text] == '' || hash[:text] == '/'
                     '../http_server'
+                  elsif hash[:text] == '/style.css'
+                    'malware.css'
                   else
                     hash[:text].sub('/', '')
                   end
