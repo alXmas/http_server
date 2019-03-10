@@ -38,7 +38,6 @@ class Server
             else
               out
             end
-
       client.print "HTTP/1.0 #{out.nil? ? '404 Not Found' : '200 OK'}\r\n" \
                    "Content-Type: #{out.nil? ? '' : out[:type]}\r\n" \
                    "Referrer-Policy: no-referrer\r\n" \
