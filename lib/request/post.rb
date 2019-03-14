@@ -2,7 +2,7 @@
 
 module Post
   def self.can_call?(request)
-    request[0].split[0] == 'POST'
+    request[0].split[0].casecmp('POST').zero?
   end
 
   def self.call(request)

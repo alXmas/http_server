@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 require 'socket'
-require_relative '../lib/request_reader'
-require_relative '../lib/response_out'
+require 'lib/request_reader'
 
-class Server
+class ProxyServerFirst
   def initialize(host, port)
     @host = host
     @port = port
@@ -12,12 +11,12 @@ class Server
 
   def start_server
     server = TCPServer.open(@host, @port)
-    puts "Main server started on #{@host}:#{@port} ..."
+    puts "Proxy server started on #{@host}:#{@port} ..."
+
 
     loop do
       client = server.accept
-      request = RequestReader.call(request: client, server: 'main')
-      byebug
+      request = RequestReader.call(request: client, server: 'proxy_1')
       out = ResponseOut.call(request)
       client.write out[:header]
       client.write "\r\n"
@@ -27,5 +26,5 @@ class Server
   end
 end
 
-localhost = Server.new('127.0.0.1', 3000)
+localhost = ProxyServerFirst.new('127.0.0.1', 2000)
 localhost.start_server

@@ -2,7 +2,7 @@
 
 module Get
   def self.can_call?(request)
-    request[0].split[0] == 'GET'
+    request[0].split[0].casecmp('GET').zero?
   end
 
   def self.call(request)
